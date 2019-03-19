@@ -20,7 +20,8 @@ import org.apache.log4j.Logger;
 public class BatchControlService {
 	private static final Logger log = Logger.getLogger(BatchControlService.class);
 
-	private BatchControlServiceImpl servImpl;
+//	private BatchControlServiceImpl servImpl;
+	private BatchControlImpl servImpl;
 
 	/**
 	 * Additional parameters can be passed to the constructor, they are declared in
@@ -64,7 +65,7 @@ public class BatchControlService {
 	public void start() throws Exception {
 		log.info("Starting service...");
 		try {
-			servImpl = BatchControlServiceImpl.getInstance();
+			servImpl = BatchControlImpl.getInstance();
 			synchronized (servImpl.getMonitor()) {
 				servImpl.loadAllBatches();
 				int countStarted = 0;
