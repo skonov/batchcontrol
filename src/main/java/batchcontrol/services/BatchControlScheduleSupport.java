@@ -70,4 +70,16 @@ public class BatchControlScheduleSupport implements BatchControl, ProcessListene
 		}
 	}
 
+	public void startService() throws Exception {
+		synchronized (monitor) {
+			subject.startService();
+		}
+	}
+
+	public void stopService() throws Exception {
+		synchronized (monitor) {
+			subject.stopService();
+		}
+	}
+
 }

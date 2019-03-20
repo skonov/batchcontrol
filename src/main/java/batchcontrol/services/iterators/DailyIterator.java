@@ -3,9 +3,7 @@ package batchcontrol.services.iterators;
 import java.util.Calendar;
 import java.util.Date;
 
-import batchcontrol.services.BatchControlServiceImpl;
-
-
+import batchcontrol.services.BatchControlImpl;
 
 /**
  * A <code>DailyIterator</code> returns a sequence of dates on subsequent days
@@ -63,7 +61,7 @@ public class DailyIterator implements SchedulerIterator {
 	}
 
 	public String getType() {
-		return BatchControlServiceImpl.DAILY_TYPE;
+		return BatchControlImpl.DAILY_TYPE;
 	}
 
 	public int getId() {

@@ -3,7 +3,7 @@ package batchcontrol.services.iterators;
 import java.util.Calendar;
 import java.util.Date;
 
-import batchcontrol.services.BatchControlServiceImpl;
+import batchcontrol.services.BatchControlImpl;
 
 
 public class HourlyIterator implements SchedulerIterator {
@@ -55,7 +55,7 @@ public class HourlyIterator implements SchedulerIterator {
 	}
 
 	public String getType() {
-		return BatchControlServiceImpl.HOURLY_TYPE;
+		return BatchControlImpl.HOURLY_TYPE;
 	}
 
 	public int getId() {

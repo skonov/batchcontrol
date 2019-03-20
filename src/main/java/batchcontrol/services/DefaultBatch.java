@@ -37,7 +37,7 @@ public class DefaultBatch {
 		try {
 			Class<?> taskClass = Class.forName(taskClassName);
 			task = (SchedulerTask)taskClass.newInstance();
-			task.setService(BatchControlServiceImpl.getInstance());
+			task.setService(BatchControlImpl.getInstance());
 			scheduler = new Scheduler();
 		} catch (Exception e) {
 			throw new Exception("Failed to create task: " + e);
@@ -182,7 +182,7 @@ public class DefaultBatch {
 	
 	private void updateStatus(int status) throws Exception { 
 		try {
-			BatchControlServiceImpl.getInstance().updateBatchStatus(name, status);
+			BatchControlImpl.getInstance().updateBatchStatus(name, status);
 			setStatus(status);
 		} catch (Exception e) {
 			log.error("Failed to update " + name + " status", e);
@@ -192,7 +192,7 @@ public class DefaultBatch {
 
 	private void updateActive(int active) throws Exception { 
 		try {
-			BatchControlServiceImpl.getInstance().setActive(taskClassName, active);
+			BatchControlImpl.getInstance().setActive(taskClassName, active);
 		} catch (Exception e) {
 			log.error("Failed to update " + name + " active status", e);
 			throw new Exception("Failed to update " + name + " active status");

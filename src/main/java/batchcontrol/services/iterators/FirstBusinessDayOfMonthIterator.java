@@ -3,8 +3,7 @@ package batchcontrol.services.iterators;
 import java.util.Calendar;
 import java.util.Date;
 
-//import com.ebillme.backend.common.settlement.BankHolidays;
-import batchcontrol.services.BatchControlServiceImpl;
+import batchcontrol.services.BatchControlImpl;
 
 public class FirstBusinessDayOfMonthIterator implements SchedulerIterator {
 	private final int hourOfDay, minute, second;
@@ -61,7 +60,7 @@ public class FirstBusinessDayOfMonthIterator implements SchedulerIterator {
 	}
 
 	public String getType() {
-		return BatchControlServiceImpl.FIRST_BUSINESS_DAY_OF_MONTH_TYPE;
+		return BatchControlImpl.FIRST_BUSINESS_DAY_OF_MONTH_TYPE;
 	}
 
 	public int getId() {

@@ -3,7 +3,7 @@ package batchcontrol.services.iterators;
 import java.util.Calendar;
 import java.util.Date;
 
-import batchcontrol.services.BatchControlServiceImpl;
+import batchcontrol.services.BatchControlImpl;
 
 public class MonthlyIterator implements SchedulerIterator {
 	private final int dayOfMonth, hourOfDay, minute, second;
@@ -60,7 +60,7 @@ public class MonthlyIterator implements SchedulerIterator {
 	}
 
 	public String getType() {
-		return BatchControlServiceImpl.MONTHLY_TYPE;
+		return BatchControlImpl.MONTHLY_TYPE;
 	}
 
 	public int getId() {

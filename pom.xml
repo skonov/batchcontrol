@@ -2,31 +2,19 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- <parent> <artifactId>ebillme-parent</artifactId> <groupId>com.ebillme</groupId> 
-		<version>1.0</version> </parent> -->
-
     <groupId>skonov</groupId>
 	<artifactId>batchcontrol-service</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>Batch Control Service Project</name>
-	<description>A MBean that defines the schedulers for ebillme batches
-	</description>
+	<name>Batch Control Service</name>
+	<description>A MBean that defines the schedulers for ebillme batches</description>
 
 	<build>
 		<finalName>batchcontrol-service</finalName>
 	</build>
 
 	<dependencies>
-	<!--  
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>ebillme-backend-common</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

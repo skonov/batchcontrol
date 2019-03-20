@@ -11,5 +11,6 @@ public interface BatchControl {
 	public Map<String, DefaultBatch> getAllBatches();
 	public DefaultBatch getBatch(String batchId);
 	public void processStarted();
-
+	public void startService() throws Exception;
+	public void stopService() throws Exception;
 }

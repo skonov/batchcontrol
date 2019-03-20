@@ -4,8 +4,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
-import batchcontrol.services.BatchControlServiceImpl;
-
+import batchcontrol.services.BatchControlImpl;
 
 /**
  * A <code>RestrictedDailyIterator</code> returns a sequence of dates on
@@ -75,7 +74,7 @@ public class RestrictedDailyIterator implements SchedulerIterator {
 	}
 
 	public String getType() {
-		return BatchControlServiceImpl.RESTRICTED_DAILY_TYPE;
+		return BatchControlImpl.RESTRICTED_DAILY_TYPE;
 	}
 	
 	public int getId() {

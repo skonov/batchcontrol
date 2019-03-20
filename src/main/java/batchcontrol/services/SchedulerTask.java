@@ -5,8 +5,6 @@ import java.util.TimerTask;
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 
-
-
 /**
  * A task that can be scheduled for recurring execution by a {@link Scheduler}.
  */
@@ -26,9 +24,9 @@ public abstract class SchedulerTask implements Runnable {
 	/** if true run() method will exit */
 	private boolean stop;
 
-	protected BatchControlServiceImpl service;
+	protected BatchControlImpl service;
 
-	public void setService(BatchControlServiceImpl service) {
+	public void setService(BatchControlImpl service) {
 		this.service = service;
 	}
 

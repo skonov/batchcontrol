@@ -34,7 +34,7 @@ public class BatchControlImpl implements BatchControl {
 	private boolean running;
 	private int numOfProcesses;
 	private Map<String, DefaultBatch> batches = new Hashtable<String, DefaultBatch>();
-	private String host; // final
+	private final String host;
 
 	/** Scheduler types */
 	public static final String DAILY_TYPE = "D";
@@ -99,6 +99,51 @@ public class BatchControlImpl implements BatchControl {
 		}
 	}
 	
+	public void startService() throws Exception {
+		log.info("Starting service...");
+		try {
+			loadAllBatches();
+			int countStarted = 0;
+			for (Iterator<DefaultBatch> i = batches.values().iterator(); i.hasNext();) {
+				DefaultBatch batch = (DefaultBatch) i.next();
+				try {
+					if (batch.start()) {
+						countStarted++;
+					}
+				} catch (Exception e) {
+					log.error("Batch " + batch.getName() + " failed to start: " + e, e);
+				}
+			}
+			log.info("Service started: " + countStarted + " of " + batches.size() + " batches started.");
+		} catch (Exception e) {
+			log.fatal("Service failed to start: " + e, e);
+			throw new Exception("Service failed to start: " + e);
+		}
+	}
+	
+	public void stopService() throws Exception {
+		log.info("Stopping service...");
+
+		// mark all tasks as stopped
+		log.debug("Stopping service: stopping all tasks...");
+		for (Iterator<DefaultBatch> i = batches.values().iterator(); i.hasNext();) {
+			(i.next()).stopTask();
+		}
+
+		// wait for all tasks to finish
+		while (running) {
+			log.info("Stopping service: waiting for all tasks to complete...");
+			notifyListenersToWait();
+		}
+
+		// stop all timers
+		log.debug("Stopping service: cancelling all batches...");
+		for (Iterator<DefaultBatch> i = batches.values().iterator(); i.hasNext();) {
+			(i.next()).cancel();
+		}
+		log.info("Service stopped.");
+	}
+
 	public void setProcessListeners(List<ProcessListener> processListeners) {
 		this.processListeners = processListeners;
 	}
@@ -399,4 +444,81 @@ public class BatchControlImpl implements BatchControl {
 		log.debug("Process started: number of processes " + numOfProcesses);
 	}
 
+	/**
+	 * Changes batch schedule status in database.
+	 * 
+	 * @param batchName
+	 *            batch short name
+	 * @param status
+	 *            batch schedule status (1 or 0)
+	 * @throws Exception
+	 *             if database error occurs.
+	 */
+	void updateBatchStatus(String batchName, int status) throws Exception {
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = getConnection();
+			String sql = "update batches set status=? where name=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setInt(1, status);
+			stmt.setString(2, batchName);
+			stmt.execute();
+		} catch (Exception e) {
+			log.error("Error updating batch status: " + e, e);
+			throw new Exception("Error updating batch status: " + e);
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				if (con != null)
+					con.close();
+			} catch (Exception e) {
+				log.error("updateBatchStatus: error closing database objects: " + e, e);
+			}
+		}
+	}
+	
+	/**
+	 * Reads batch active flag from database. The active flag can be changed
+	 * directly in database by anyone.
+	 * 
+	 * @param batchClassName
+	 *            fully qualified task class name.
+	 * @return batch active flag 1 or 0, or -1 if there was an error.
+	 * @throws Exception
+	 *             if database error occurs.
+	 */
+	int getActive(String batchClassName) throws Exception {
+		Connection con = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		int active = -1;
+		try {
+			con = getConnection();
+			String sql = "select active from batches where classname=?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, batchClassName);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				active = rs.getInt("active");
+			}
+			log.debug("getActive: " + batchClassName + ": active=" + active);
+		} catch (Exception e) {
+			log.error("Error getting batch active field: " + e, e);
+			throw new Exception("Error getting batch active field: " + e);
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				if (con != null)
+					con.close();
+			} catch (Exception e) {
+				log.error("getActive: error closing database objects: " + e, e);
+			}
+		}
+		return active;
+	}
 }
