@@ -21,7 +21,7 @@ public abstract class SchedulerTask implements Runnable {
 	
 	public final static String LOGGER_KEY = "ApplicationName";
 
-	/** if true run() method will exit */
+	// If true, run() method will exit.
 	private boolean stop;
 
 	protected BatchControlImpl service;
@@ -42,8 +42,8 @@ public abstract class SchedulerTask implements Runnable {
 		// active flag can be changed directly in database after the batch has started
 		try {
 			String className = this.getClass().getName();
-			if(service.getActive(className)==0) {
-				log.info("Batch "+className+" is not active: stopping...");
+			if(service.getActive(className) == 0) {
+				log.info("Batch " + className + " is not active: stopping...");
 				service.stopBatch(className);
 			}
 		} catch (Exception e) {
@@ -51,10 +51,11 @@ public abstract class SchedulerTask implements Runnable {
 		}
 		
 		if(stop) {
-			log.info("Running task "+getName()+": task stopped.");
+			log.info("Running task " + getName() + ": task stopped.");
 			return;
 		}
-		// inform the service that process has started
+		
+		// Inform the service that process has started.
 		service.processStarted();
 		MDC.put(LOGGER_KEY, "BATCH_STATUS");
 		log.info("Running task " + getName() + ": started.");
@@ -64,7 +65,7 @@ public abstract class SchedulerTask implements Runnable {
 			state = BUSY;
 			process();
 		} catch (Throwable e) {
-			log.error("Running task "+getName()+": "+e, e);
+			log.error("Running task " + getName() + ": " + e, e);
 		} finally {
 			state = IDLE;
 			service.processStopped();
@@ -100,7 +101,7 @@ public abstract class SchedulerTask implements Runnable {
 			}
 			boolean result = (state == SCHEDULED);
 			state = CANCELLED;
-			log.debug("Task "+getName()+" was cancelled: result="+result);
+			log.debug("Task " + getName() + " was cancelled: result=" + result);
 			return result;
 		}
 	}

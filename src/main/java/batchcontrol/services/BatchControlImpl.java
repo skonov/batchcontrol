@@ -294,8 +294,8 @@ public class BatchControlImpl implements BatchControl {
 	}
 
 	/**
-	 * Cancels batch. If task is still running it is allowed to finish and then
-	 * batch is cancelled.
+	 * Cancels batch. 
+	 * If task is still running it is allowed to finish and then batch is cancelled.
 	 * 
 	 * @param name
 	 *            fully qualified task class name.

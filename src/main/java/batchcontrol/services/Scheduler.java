@@ -78,9 +78,8 @@ public class Scheduler {
 		boolean result = true;
 		if (time == null) {
 			schedulerTask.cancel();
-			//TODO cancel()?
 			result = false;
-			log.debug("SCHEDULE: cancelled "+schedulerTask+" - scheduler returned no time.");
+			log.debug("SCHEDULE: cancelled " + schedulerTask + " - scheduler returned no time.");
 		} else {
 			synchronized(schedulerTask.lock) {
 				if (schedulerTask.state != SchedulerTask.VIRGIN) {
@@ -89,7 +88,7 @@ public class Scheduler {
 				schedulerTask.state = SchedulerTask.SCHEDULED;
 				schedulerTask.timerTask = new SchedulerTimerTask(schedulerTask, iterator);
 				timer.schedule(schedulerTask.timerTask, time);
-				log.debug("SCHEDULE: scheduled "+schedulerTask);
+				log.debug("SCHEDULE: scheduled " + schedulerTask);
 			}
 		}
 		return result;
@@ -107,13 +106,12 @@ public class Scheduler {
 		Date time = iterator.next();
 		if (time == null) {
 			schedulerTask.cancel();
-			//TODO cancel()?
 		} else {
 			synchronized(schedulerTask.lock) {
 				if (schedulerTask.state != SchedulerTask.CANCELLED) {
 					schedulerTask.timerTask = new SchedulerTimerTask(schedulerTask, iterator);
 					timer.schedule(schedulerTask.timerTask, time);
-					log.debug("Rescheduled "+schedulerTask);
+					log.debug("Rescheduled " + schedulerTask);
 				}
 			}
 		}

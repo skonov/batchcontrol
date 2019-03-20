@@ -86,13 +86,13 @@ public class DefaultBatch {
 
 	public void addSchedulerIterator(SchedulerIterator iterator) {
 		schedulerIterators.add(iterator);
-		log.debug(name+": iterator added "+iterator+", size="+schedulerIterators.size());
+		log.debug(name + ": iterator added " + iterator + ", size=" + schedulerIterators.size());
 	}
 	
 	void stopTask() {
 		try {
 			MDC.put(SchedulerTask.LOGGER_KEY, "BATCH_STATUS");
-			if(task==null) {
+			if(task == null) {
 				return;
 			}
 			task.setStop(true);
@@ -106,7 +106,7 @@ public class DefaultBatch {
 	void cancel() throws Exception {
 		try {
 			MDC.put(SchedulerTask.LOGGER_KEY, "BATCH_STATUS");
-			if(task==null) {
+			if(task == null) {
 				return;
 			}
 			task.cancel();
@@ -116,8 +116,8 @@ public class DefaultBatch {
 			runOnce = false;
 			msg = "CANCEL: Cancelled " + name;
 		} catch (Exception e) {
-			log.error("Failed to cancel batch: "+e.getMessage(), e);
-			throw new Exception("Failed to cancel batch: "+e.getMessage());
+			log.error("Failed to cancel batch: " + e.getMessage(), e);
+			throw new Exception("Failed to cancel batch: " + e.getMessage());
 		} finally {
 			log.info(msg);
 			MDC.remove(SchedulerTask.LOGGER_KEY);
@@ -139,17 +139,17 @@ public class DefaultBatch {
 		boolean result = false;
 		try {
 			MDC.put(SchedulerTask.LOGGER_KEY, "BATCH_STATUS");
-			if(active==0) {
-				msg = "START: NOT started "+name+": not active.";
+			if(active == 0) {
+				msg = "START: NOT started " + name + ": not active.";
 				updateStatus(0);
-			} else if(server==null || !server.equals(host)) {
-				msg = "START: NOT started "+name+": server name '"+server+"' doesn't match "+host;
+			} else if(server == null || !server.equals(host)) {
+				msg = "START: NOT started " + name + ": server name '" + server + "' doesn't match "+host;
 				updateStatus(0);
 				updateActive(0);
-			} else if(status==1) {
-				msg = "START: NOT started "+name+": already scheduled.";
+			} else if(status == 1) {
+				msg = "START: NOT started " + name + ": already scheduled.";
 			} else {
-				if(task==null) {
+				if(task == null) {
 					createTask();
 				}
 				if(runOnce) {
@@ -165,12 +165,12 @@ public class DefaultBatch {
 						result = true;
 						msg = "START: started " + name;
 					} else {
-						msg = "START: NOT started "+name+": no schedule.";
+						msg = "START: NOT started " + name + ": no schedule.";
 					}
 				}
 			}
 		} catch (Exception e) {
-			msg = "START: NOT started "+name+": "+e;
+			msg = "START: NOT started " + name + ": "+e;
 			log.error(e.toString(), e);
 			throw e;
 		} finally {
@@ -203,18 +203,18 @@ public class DefaultBatch {
 		SchedulerIterator iterator = null;
 		if(schedulerIterators.size()==1) {
 			iterator = (SchedulerIterator)schedulerIterators.get(0);
-			log.debug(name+": returning single iterator: " + iterator);
+			log.debug(name + ": returning single iterator: " + iterator);
 		} else {
 			iterator = new CompositeIterator(
 					(SchedulerIterator[])schedulerIterators.toArray(new SchedulerIterator[0]));
-			log.debug(name+": returning composite iterator: " + iterator+", size="+schedulerIterators.size());
+			log.debug(name + ": returning composite iterator: " + iterator + ", size="+schedulerIterators.size());
 		}
 		return iterator;
 	}
 	
 	public void clearIterators() {
 		schedulerIterators.clear();
-		log.debug(name+": all iterators removed.");
+		log.debug(name + ": all iterators removed.");
 	}
 	
 	public List<SchedulerIterator> getSchedulerIterators() {
