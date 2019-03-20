@@ -1,4 +1,4 @@
-package batchcontrol.services;
+package batchcontrol.service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 
-import batchcontrol.services.iterators.CompositeIterator;
-import batchcontrol.services.iterators.SchedulerIterator;
+import batchcontrol.service.iterators.CompositeIterator;
+import batchcontrol.service.iterators.SchedulerIterator;
 
 public class DefaultBatch {
 	

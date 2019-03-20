@@ -1,4 +1,4 @@
-package batchcontrol.services;
+package batchcontrol.service;
 
 /**
  * This service is started from JBoss microcontainer when JBoss is started.

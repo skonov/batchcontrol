@@ -1,4 +1,4 @@
-package batchcontrol.services;
+package batchcontrol.service;
 
 public interface ProcessListener {
 	void waitForBusyTask() throws Exception;

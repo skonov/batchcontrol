@@ -1,47 +1,41 @@
-package batchcontrol.services.iterators;
+package batchcontrol.service.iterators;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import batchcontrol.services.BatchControlImpl;
+import batchcontrol.service.BatchControlImpl;
 
-/**
- * A <code>DailyIterator</code> returns a sequence of dates on subsequent days
- * representing the same time each day.
- */
-public class DailyIterator implements SchedulerIterator {
-	private final int hourOfDay, minute, second;
+
+public class HourlyIterator implements SchedulerIterator {
+	private final int minute, second;
 	private final Calendar calendar = Calendar.getInstance();
 	private final int id;
 	private String state = SchedulerIterator.ACTIVE;
-	
 
-	public DailyIterator(int hourOfDay, int minute, int second, int id) {
-		this(hourOfDay, minute, second, new Date(), id);
+	public HourlyIterator(int minute, int second, int id) {
+		this(minute, second, new Date(), id);
 	}
 
-	public DailyIterator(int hourOfDay, int minute, int second, Date date, int id) {
+	public HourlyIterator(int minute, int second, Date date, int id) {
 		this.id = id;
-		this.hourOfDay = hourOfDay;
 		this.minute = minute;
 		this.second = second;
 		calendar.setTime(date);
-		calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
 		calendar.set(Calendar.MINUTE, minute);
 		calendar.set(Calendar.SECOND, second);
 		calendar.set(Calendar.MILLISECOND, 0);
-		if (!calendar.getTime().before(date)) {
-			calendar.add(Calendar.DATE, -1);
+		if (calendar.getTime().after(date)) {
+			calendar.add(Calendar.HOUR, -1);
 		}
 	}
-
+	
 	public Date next() {
-		calendar.add(Calendar.DATE, 1);
+		calendar.add(Calendar.HOUR, 1);
 		return calendar.getTime();
 	}
 	
 	public String toString() {
-		return "[Daily: h="+hourOfDay+", m="+minute+", s="+second+"]";
+		return "[Hourly: m="+minute+", s="+second+"]";
 	}
 
 	public String getDays() {
@@ -49,7 +43,7 @@ public class DailyIterator implements SchedulerIterator {
 	}
 
 	public int getHour() {
-		return this.hourOfDay;
+		return 0;
 	}
 
 	public int getMinute() {
@@ -61,7 +55,7 @@ public class DailyIterator implements SchedulerIterator {
 	}
 
 	public String getType() {
-		return BatchControlImpl.DAILY_TYPE;
+		return BatchControlImpl.HOURLY_TYPE;
 	}
 
 	public int getId() {
@@ -69,7 +63,7 @@ public class DailyIterator implements SchedulerIterator {
 	}
 
 	public Object clone() {
-		return new DailyIterator(this.hourOfDay, this.minute, this.second, this.id);
+		return new HourlyIterator(this.minute, this.second, this.id);
 	}
 
 	public String getState() {

@@ -1,4 +1,4 @@
-package batchcontrol.services;
+package batchcontrol.service;
 
 import java.util.TimerTask;
 

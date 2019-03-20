@@ -1,9 +1,9 @@
-package batchcontrol.services.iterators;
+package batchcontrol.service.iterators;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import batchcontrol.services.BatchControlImpl;
+import batchcontrol.service.BatchControlImpl;
 
 
 public class MinuteIterator implements SchedulerIterator {

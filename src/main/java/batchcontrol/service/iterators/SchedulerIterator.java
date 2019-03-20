@@ -1,8 +1,8 @@
-package batchcontrol.services.iterators;
+package batchcontrol.service.iterators;
 
 import java.util.Date;
 
-import batchcontrol.services.SchedulerTask;
+import batchcontrol.service.SchedulerTask;
 
 /**
  * Implementations of <code>ScheduleIterator</code> specify a schedule as a series of 

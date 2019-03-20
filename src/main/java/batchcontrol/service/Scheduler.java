@@ -1,4 +1,4 @@
-package batchcontrol.services;
+package batchcontrol.service;
 
 import java.util.Date;
 import java.util.Timer;
@@ -6,7 +6,7 @@ import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
 
-import batchcontrol.services.iterators.SchedulerIterator;
+import batchcontrol.service.iterators.SchedulerIterator;
 
 
 /**

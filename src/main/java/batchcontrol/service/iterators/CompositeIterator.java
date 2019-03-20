@@ -1,4 +1,4 @@
-package batchcontrol.services.iterators;
+package batchcontrol.service.iterators;
 
 import java.util.ArrayList;
 import java.util.Collections;

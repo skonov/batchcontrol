@@ -1,4 +1,4 @@
-package batchcontrol.services;
+package batchcontrol.service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,13 +20,13 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
-import batchcontrol.services.iterators.DailyIterator;
-import batchcontrol.services.iterators.FirstBusinessDayOfMonthIterator;
-import batchcontrol.services.iterators.HourlyIterator;
-import batchcontrol.services.iterators.MinuteIterator;
-import batchcontrol.services.iterators.MonthlyIterator;
-import batchcontrol.services.iterators.RestrictedDailyIterator;
-import batchcontrol.services.iterators.SchedulerIterator;
+import batchcontrol.service.iterators.DailyIterator;
+import batchcontrol.service.iterators.FirstBusinessDayOfMonthIterator;
+import batchcontrol.service.iterators.HourlyIterator;
+import batchcontrol.service.iterators.MinuteIterator;
+import batchcontrol.service.iterators.MonthlyIterator;
+import batchcontrol.service.iterators.RestrictedDailyIterator;
+import batchcontrol.service.iterators.SchedulerIterator;
 
 public class BatchControlImpl implements BatchControl {
 	private static final Logger log = Logger.getLogger(BatchControlImpl.class);
