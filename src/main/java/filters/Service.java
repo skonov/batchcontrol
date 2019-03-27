@@ -34,7 +34,7 @@ public class Service {
 		
 		for (Filter f : filters) {
 			if (f.compound) {
-				addFilter(compound, f, f.pField);
+				addFilterToMap(compound, f, f.pField);
 				if (simple.containsKey(f.pField)) {
 					if (!combined.containsKey(f.pField)) {
 						combined.put(f.pField, new HashSet<Filter>());
@@ -43,9 +43,9 @@ public class Service {
 					simple.remove(f.pField);
 				}
 			} else {
-				addFilter(simple, f, f.name);
+				addFilterToMap(simple, f, f.name);
 				if (compound.containsKey(f.name)) {
-					addFilter(combined, f, f.name);
+					addFilterToMap(combined, f, f.name);
 					simple.remove(f.name);
 				}
 			}
@@ -58,7 +58,7 @@ public class Service {
 		
 	}
 	
-	void addFilter(Map<String, Set<Filter>> map, Filter filter, String name) {
+	void addFilterToMap(Map<String, Set<Filter>> map, Filter filter, String name) {
 		if (!map.containsKey(name)) {
 			map.put(name, new HashSet<Filter>());
 		}
