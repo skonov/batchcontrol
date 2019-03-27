@@ -2,6 +2,7 @@ package filters;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,18 +35,15 @@ public class Service {
 		
 		for (Filter f : filters) {
 			if (f.compound) {
-				addFilterToMap(compound, f, f.pField);
+				addFilterToMap(compound, f.pField, new HashSet<Filter>(Arrays.asList(f)));
 				if (simple.containsKey(f.pField)) {
-					if (!combined.containsKey(f.pField)) {
-						combined.put(f.pField, new HashSet<Filter>());
-					}
-					combined.get(f.pField).addAll(simple.get(f.pField));
+					addFilterToMap(combined, f.pField, simple.get(f.pField));
 					simple.remove(f.pField);
 				}
 			} else {
-				addFilterToMap(simple, f, f.name);
+				addFilterToMap(simple, f.name, new HashSet<Filter>(Arrays.asList(f)));
 				if (compound.containsKey(f.name)) {
-					addFilterToMap(combined, f, f.name);
+					addFilterToMap(combined, f.name, new HashSet<Filter>(Arrays.asList(f)));
 					simple.remove(f.name);
 				}
 			}
@@ -58,11 +56,11 @@ public class Service {
 		
 	}
 	
-	void addFilterToMap(Map<String, Set<Filter>> map, Filter filter, String name) {
+	void addFilterToMap(Map<String, Set<Filter>> map, String name, Set<Filter> filters) {
 		if (!map.containsKey(name)) {
 			map.put(name, new HashSet<Filter>());
 		}
-		map.get(name).add(filter);
+		map.get(name).addAll(filters);
 	}
 
 }
